@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtro Automático</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Subir Archivo</h2>
+            <input type="file" id="fileInput">
+            <h2>Seleccionar Rango de Fechas</h2>
+            <label for="startDate">Fecha Inicio:</label>
+            <input type="date" id="startDate">
+            <label for="endDate">Fecha Final:</label>
+            <input type="date" id="endDate">
+            <button onclick="cargarDatos()">Cargar</button>
+            <button onclick="exportarDatos()">Exportar</button>
+        </div>
+        <div class="content">
+            <table class="table table-bordered" id="results-table">
+                <thead>
+                    <tr>
+                        <th>Numero Adquisición</th>
+                        <th>Nombre Adquisición</th>
+                        <th>Organismo</th>
+                        <th>Fecha Publicación</th>
+                        <th>Fecha Cierre</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
