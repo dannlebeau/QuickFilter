@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "name": "filtro-excel",
+  "dependencies": {
+    "cors": {
+      "version": "2.8.5",
+      "resolved": "https://registry.npmjs.org/cors/-/cors-2.8.5.tgz",
+      "overridden": false
+    },
+    "express": {
+      "version": "4.21.2",
+      "resolved": "https://registry.npmjs.org/express/-/express-4.21.2.tgz",
+      "overridden": false
+    },
+    "multer": {
+      "version": "1.4.5-lts.1",
+      "resolved": "https://registry.npmjs.org/multer/-/multer-1.4.5-lts.1.tgz",
+      "overridden": false
+    },
+    "nodemon": {
+      "version": "3.1.9",
+      "resolved": "https://registry.npmjs.org/nodemon/-/nodemon-3.1.9.tgz",
+      "overridden": false
+    },
+    "xlsx": {
+      "version": "0.18.5",
+      "resolved": "https://registry.npmjs.org/xlsx/-/xlsx-0.18.5.tgz",
+      "overridden": false
+    }
+  }
+}
