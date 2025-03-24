@@ -44,4 +44,5 @@ app.post('/upload', upload.single('file'), (req, res) => {
     }
 });
 
-app.listen(3000, () => console.log('Servidor corriendo en el puerto 3000'));
+//app.listen(3000, () => console.log('Servidor corriendo en el puerto 3000')); Activar cuando se trabaje de forma loca y desactivar el codigo de abajo que corresponde a Vercel
+module.exports = app; 
