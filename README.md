@@ -39,3 +39,8 @@ nodemon script.js
 
 Primera versión 2203
 ![image](https://github.com/user-attachments/assets/962a2941-7289-4803-b4ca-d3419a93b37b)
+
+Segunda versión 2403
+![image](https://github.com/user-attachments/assets/cd65a229-d511-4edb-8ff2-b18d1d3421df)
+
+
