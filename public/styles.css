@@ -1,20 +1,25 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    flex-direction: column; /* Mantiene la estructura de columna */
+    justify-content: flex-start;
+    min-height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
+    margin: 20px 5%; /* Márgenes superior e izquierdo de 20px, y 5% en los lados */
+    padding: 0; /* Elimina el relleno */
     background-color: #f8f9fa; /* Color de fondo suave */
+    overflow-x: hidden; /* Evita la barra de desplazamiento horizontal */
+    overflow-y: hidden; /* Evita la barra de desplazamiento vertical */ 
 }
 
 .container {
     display: flex;
-    width: 90%;
+    width: 100%;
+    max-width: 90%; /* Limita el ancho al 90% */
     height: 80vh;
     border: 1px solid #ccc;
-    border-radius: 8px; /* Bordes redondeados para un look más moderno */
+    border-radius: 8px;
     overflow: hidden;
+    margin: 0 auto; /* Centra el contenedor */
 }
 
 .sidebar {
@@ -47,14 +52,13 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Estilo moderno para la tabla */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para la tabla */
-    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 th, td {
@@ -70,13 +74,82 @@ th {
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9; /* Fondo alternado para las filas */
+    background-color: #f9f9f9;
 }
 
 tr:hover {
-    background-color: #f1f1f1; /* Color de fondo al pasar el cursor */
+    background-color: #f1f1f1;
 }
 
 tbody tr:last-child td {
-    border-bottom: none; /* Sin borde en la última fila */
+    border-bottom: none;
+}
+
+.total-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.total-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilo del footer */
+footer {
+    width: 90%; /* Establece el mismo ancho que el .container */
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 2px 0; /* Espacio interno */
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin: 0 auto; /* Centra el footer */
+    border-top: 1px solid #ccc;
+}
+
+
+
+footer .content-footer {
+    width: 50%;  /* Mantiene el ancho proporcional al contenedor */
+    margin: 0 auto; /* Centra el contenido */
+}
+
+footer .logo_esquina {
+    max-width: 100px;
+    margin-bottom: 10px;
+}
+
+footer p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #333;
+}
+
+footer .social-icons {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+footer .social-icons li {
+    display: inline;
+}
+
+footer .social-icons a {
+    color: #333;
+    font-size: 1.5em;
+    text-decoration: none;
+}
+
+footer .social-icons a:hover {
+    color: #007bff;
 }

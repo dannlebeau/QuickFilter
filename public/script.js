@@ -248,71 +248,107 @@ function mostrarDatos(data) {
         return false;
     });
     
-    
-    
-    
     console.log(filteredData); //
     console.log(`Cantidad de datos filtrados por Nivel 1: ${filteredData.length}`);
     console.log(`Cantidad de datos filtrados por Nivel 2: ${filteredData.length}`);
     console.log(`Cantidad de datos filtrados por Nivel 3: ${filteredData.length}`);
     console.log(`Cantidad de datos filtrados por GENÉRICO: ${filteredData.length}`);
+    
+      // Ahora se muestran los resultados filtrados en la tabla
+    filteredData.forEach(row => {
+        const fechaPublicacion = row['Fecha Publicación'] ? convertirFechaExcel(row['Fecha Publicación']) : 'N/A';
+        const fechaCierre = row['Fecha Cierre'] ? convertirFechaExcel(row['Fecha Cierre']) : 'N/A';
 
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${row['Numero Adquisición'] || 'N/A'}</td>
+            <td>${row['Nombre Adquisición'] || 'N/A'}</td>
+            <td>${row['Organismo'] || 'N/A'}</td>
+            <td>${fechaPublicacion}</td>
+            <td>${fechaCierre}</td>
+        `;
+        tableBody.appendChild(tr);
+    });
+    
+    
+    
+    
+    // Actualiza el contador de licitaciones filtradas
+    document.getElementById('totalLicitaciones').textContent = filteredData.length;
      // Guardar los datos filtrados en una variable global para exportarlos
     window.filteredDataForExport = filteredData;
 }
 
 
 //================================Funcion exportar===================================================///
-// Función para exportar los datos filtrados a CSV
 function exportarDatos() {
     // Usar los datos filtrados que se guardaron en la variable global
     const filteredData = window.filteredDataForExport;
 
-    if (filteredData.length === 0) {
+    if (!filteredData || filteredData.length === 0) {
         alert("No hay datos para exportar.");
         return;
     }
 
-    // Crear CSV
+    // Crear el CSV, comenzando con las filas de encabezado
     const csvRows = [];
     const headers = ['Numero Adquisición', 'Nombre Adquisición', 'Organismo', 'Fecha Publicación', 'Fecha Cierre'];
-    
-    // Agregar encabezados
-    csvRows.push(headers.join(',')); 
 
-    // Escapar las comas y las comillas dobles en los datos
-    function escapeCSVValue(value) {
-        if (value == null) return ''; // Si el valor es null o undefined, devolver vacío
-        value = value.toString(); // Convertir a string
+    // Agregar los encabezados al CSV
+    csvRows.push(headers.join(','));
 
-        // Escapar las comillas dobles y envolver el valor en comillas si contiene comas o comillas dobles
-        if (value.includes('"') || value.includes(',') || value.includes('\n')) {
-            value = '"' + value.replace(/"/g, '""') + '"';
+    // Función para formatear las fechas a formato 'dd/mm/yyyy'
+    function formatDate(dateValue) {
+        if (dateValue) {
+            let date;
+            // Si la fecha ya es un objeto Date, la usamos directamente
+            if (dateValue instanceof Date) {
+                date = dateValue;
+            } else {
+                // Si la fecha está en formato Excel (numérica), convertimos a Date
+                date = new Date((dateValue - 25569) * 86400 * 1000); // Excel date to JS Date
+            }
+            const day = ("0" + date.getDate()).slice(-2);
+            const month = ("0" + (date.getMonth() + 1)).slice(-2);
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
         }
-        return value;
+        return 'N/A';
     }
 
-    // Recorre los datos filtrados y agrega las filas
+    // Recorrer los datos filtrados y agregar las filas al CSV
     filteredData.forEach(row => {
-        const values = [
-            escapeCSVValue(row['Numero Adquisición'] || 'N/A'),
-            escapeCSVValue(row['Nombre Adquisición'] || 'N/A'),
-            escapeCSVValue(row['Organismo'] || 'N/A'),
-            escapeCSVValue(row['Fecha Publicación'] || 'N/A'),
-            escapeCSVValue(row['Fecha Cierre'] || 'N/A'),
+        const fechaPublicacion = formatDate(row['Fecha Publicación']);
+        const fechaCierre = formatDate(row['Fecha Cierre']);
+        const rowData = [
+            row['Numero Adquisición'] || 'N/A',
+            row['Nombre Adquisición'] || 'N/A',
+            row['Organismo'] || 'N/A',
+            fechaPublicacion,
+            fechaCierre
         ];
-        csvRows.push(values.join(','));
+        csvRows.push(rowData.join(','));
     });
 
-    // Crear el contenido CSV con BOM para UTF-8
-    const csvContent = "\uFEFF" + csvRows.join('\n'); 
+    // Crear un archivo CSV a partir de las filas
+    const csvContent = csvRows.join('\n');
+
+    // Crear un Blob con BOM para UTF-8
+    const BOM = "\uFEFF"; // Byte Order Mark para UTF-8
+    const csvWithBOM = BOM + csvContent;
+
+    // Crear un blob con los datos CSV y especificar la codificación correcta
+    const blob = new Blob([csvWithBOM], { type: 'text/csv;charset=utf-8;' });
 
     // Crear un enlace para descargar el archivo CSV
     const link = document.createElement('a');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    link.href = url;
-    link.download = 'datos_filtrados.csv';
-    link.click();
-    URL.revokeObjectURL(url); // Liberar el objeto URL
+    if (link.download !== undefined) { // Soporte para navegadores modernos
+        // Crear un enlace para descargar el archivo con el tipo adecuado para UTF-8
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'datos_filtrados.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 }
